@@ -1,26 +1,5 @@
 
 
-function calculateTotal() {
-    const rows = document.getElementById('invoiceItems').getElementsByTagName('tr');
-    let grandTotal = 0;
-    for (let i = 0; i < rows.length; i++) {
-        const quantity = rows[i].querySelectorAll('input')[1].value;
-        const rate = rows[i].querySelectorAll('input')[2].value;
-        const total = (quantity * rate).toFixed(2);
-        rows[i].querySelector('.total').textContent = `₹${total}`;
-        grandTotal += parseFloat(total);
-    }
-    document.getElementById('grandTotal').textContent = `₹${grandTotal.toFixed(2)}`;
-    const currentBill = document.getElementById("currentbill");
-    currentBill.textContent = `₹${grandTotal.toFixed(2)}`;
-
-    // Convert grand total to words
-    const wordsElement = document.getElementById("words");
-    wordsElement.textContent = `Amount in words: ${toWords(grandTotal)}`;
-}
-
-
-
 // function for converting number to words
 // Function to convert number to words
 function toWords(num) {
@@ -80,7 +59,7 @@ function toWords(num) {
         result += `${convertChunk(remainder)}`;
     }
 
-    return result.trim() + " Rupees "+" only" || 'Zero';
+    return result.trim() + " Rupees " + " only" || 'Zero';
 }
 
 
@@ -107,7 +86,6 @@ function printInvoice() {
 
 
 
-// Create a new Date object
 var currentDate = new Date();
 
 // Get individual components of the date
@@ -115,11 +93,20 @@ var year = currentDate.getFullYear();
 var month = currentDate.getMonth() + 1; // Month is zero-based, so we add 1
 var day = currentDate.getDate();
 
-// Format the date as needed (e.g., YYYY-MM-DD)
-var formattedDate = year + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day;
+var formattedDate = (day < 10 ? '0' : '') + day + '-' + (month < 10 ? '0' : '') + month + '-' + year;
 
 document.getElementById("date").textContent = formattedDate;
+// Get current time
+const currentTime = new Date();
+const hours = currentTime.getHours();
+const minutes = currentTime.getMinutes();
+const ampm = hours >= 12 ? 'PM' : 'AM';
 
+// Format the time as needed
+const formattedTime = `${hours % 12 || 12}:${minutes < 10 ? '0' : ''}${minutes} ${ampm}`;
+
+document.getElementById("time").textContent = formattedTime;
+console.log(document.getElementById("time"));
 
 
 function deleteRow(button) {
@@ -136,19 +123,52 @@ function deleteRow(button) {
     // Recalculate the total after deleting the row
     calculateTotal();
 }
+
+function calculateTotal() {
+    const rows = document.getElementById('invoiceItems').getElementsByTagName('tr');
+    let grandTotal = 0;
+    for (let i = 0; i < rows.length; i++) {
+        const selectedOption = rows[i].querySelector('select').value;
+        const quantity = rows[i].querySelectorAll('input')[0].value;
+        const rate = rows[i].querySelectorAll('input')[1].value;
+        const total = (quantity * rate).toFixed(2);
+        rows[i].querySelector('.total').textContent = `₹${total}`;
+        grandTotal += parseFloat(total);
+    }
+    document.getElementById('grandTotal').textContent = `₹${grandTotal.toFixed(2)}`;
+    const currentBill = document.getElementById("currentbill");
+    currentBill.textContent = `₹${grandTotal.toFixed(2)}`;
+
+    // Convert grand total to words
+    const wordsElement = document.getElementById("words");
+    wordsElement.textContent = `Amount in words: ${toWords(grandTotal)}`;
+}
 function addInvoiceItem() {
     const invoiceItems = document.getElementById('invoiceItems');
     const rowsCount = invoiceItems.getElementsByTagName('tr').length + 1;
-
     const row = document.createElement('tr');
     row.innerHTML = `
         <td class="py-2 px-4 border">${rowsCount}</td>
-        <td class="border"><input type="text" placeholder="Enter description" class="px-4  py-2 w-full sm:inline-block max-w-full"></td>
-        <td class="border"><input type="number" value="1" oninput="calculateTotal()" class="px-4  py-2 w-full sm:inline-block max-w-full"></td>   
-        <td class="border"><input type="number" value="0" step="0" oninput="calculateTotal()" class="px-4  py-2 w-full sm:inline-block max-w-full"></td>
-        <td class="total text-center border">₹0.00</td>
+        <td class="border" style="width: 33%;">
+            <select class="description-dropdown px-6 py-2 w-full sm:inline-block max-w-full" onchange="calculateTotal()">
+                <option value="item1">Select</option>
+                <option value="item2">Atchaya</option>
+                <option value="item3">Karnataka ponni</option>
+                 <option value="item4">BBT</option>
+                <option value="item5">36</option>
+                <option value="item6">39</option>
+                 <option value="item7">45</option>
+                 <option value="item8">Husk</option>
+                <option value="item9">Husk Powder</option>
+                <option value="item10">Ponni Broken Rice</option>
+               <option value="item11">Broken Rice</option>
+            </select>
+        </td>
+        <td class="border"><input type="number" value="1" oninput="calculateTotal()" class="px-4 py-2 w-full sm:inline-block max-w-full"></td>   
+        <td class="border"><input type="number"  step="0" oninput="calculateTotal()" class="px-4 py-2 w-full sm:inline-block max-w-full"></td>
+        <td class="total text-center border" style="width: 15%;">₹0.00</td>
         <td><button onclick="deleteRow(this)" class="text-red-500 hover:text-red-700">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><path fill="currentColor" d="M14.12 10.47L12 12.59l-2.13-2.12l-1.41 1.41L10.59 14l-2.12 2.12l1.41 1.41L12 15.41l2.12 2.12l1.41-1.41L13.41 14l2.12-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4zM6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6zM8 9h8v10H8z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"><path fill="currentColor" d="M14.12 10.47L12 12.59l-2.13-2.12l-1.41 1.41L10.59 14l-2.12 2.12l1.41 1.41L12 15.41l2.12 2.12l1.41-1.41L13.41 14l2.12-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4zM6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6zM8 9h8v10H8z"/></svg>
         </button></td>
     `;
     invoiceItems.appendChild(row);
@@ -165,3 +185,14 @@ function addInvoiceItem() {
         deleteButtons[i].setAttribute('onclick', 'deleteRow(this)');
     }
 }
+
+
+document.addEventListener('keyup', (event) => {
+    if (event.target == "Enter") {
+        addInvoiceItem()
+        calculateTotal()
+    }
+})
+
+
+

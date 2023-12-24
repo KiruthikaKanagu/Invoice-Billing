@@ -6,16 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoice</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-    <!-- Add your custom stylesheets or scripts here -->
 </head>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Geologica:wght@200&display=swap');
 
-    /* Custom styles for the table */
     .container {
         border: 1px solid black;
         padding: 20px;
-        /* Adjust the padding as needed */
         font-family: 'Geologica', sans-serif;
     }
 
@@ -27,7 +24,7 @@
     th {
         background-color: white;
         color: black;
-    }   
+    }
 
     /* Style for the responsive table */
     @media (max-width: 640px) {
@@ -42,61 +39,69 @@
             display: none !important;
             visibility: hidden !important;
         }
+
+        input {
+            border: none !important;
+        }
     }
+
     @page {
-    size: A4; /* Adjust the paper size as needed */
-}
+        size: A4;
+        /* Adjust the paper size as needed */
+    }
 </style>
 
 <body class="bg-gray-100 ">
- 
+
 
     <div class="container mx-auto p-4 md:p-8 bg-white shadow-md mt-12 md:max-w-2xl ">
-        
-           <table style="background-color: azure">
-  <tr style="background-color: aqua">
-    <th><img src="skn.png"></th>
-    <th>  <h2 class="text-center text-3xl font-semibold mb-5  ">SS Hitech Modern Rice Mill</h2></th>
-    <th style=""><img src="ss%20gold.png" align="right" ></th>
-  </tr>
-    </table>
+
+        <table style="background-color: azure">
+            <tr style="background-color: aqua">
+                <th><img src="skn.png"></th>
+                <th>
+                    <h2 class="text-center text-3xl font-semibold mb-5  ">SS Hitech Modern Rice Mill</h2>
+                </th>
+                <th><img class="align-right" src="ss%20gold.png"></th>
+            </tr>
+        </table>
         <td>
-        <tr>
-            <th ></th>
-            <th ></th></tr></td>
-                    
-
-      
+            <tr>
+                <th></th>
+                <th></th>
+            </tr>
+        </td>
         <hr class="border-b-1 border-black mb-5">
-        <div class="md:flex md:justify-between mb-4">
-            <div class="mb-4 md:mb-0 md:w-2/3">
-                <h5 class="font-semibold">From:</h5>
-                <div class="text-xs">
-                   
-                    605 , Gobi - Erode Main Road<br>
-                    Suriyampalayam ,
-                    Bhavani (TK) ,<br>
-                     Erode (DT),Tamil Nadu,638455<br>
-                    <b>  Email:</b> sshitechmodernricemill@gmail.com<br>
-                    <b>Mobile:</b> 9842141866 | 9944399318
-                </div>
-            </div>
-
-            <div class="md:w-1/3">
-                <div class="md:flex md:justify-between">
-                    <div class="mb-4 md:mb-0">
-<!--                        <h5>Invoice No:1768999</h5>-->
-                        <!-- Add dynamic content or use JavaScript to populate the invoice number -->
-                        <h5><b>Date:</b> <span id="date"></span> </h5>
-                        <!-- Add dynamic content or use JavaScript to populate the date -->
+        <table style="width: 100%; border-collapse: collapse;" class="mb-3">
+            <tr>
+                <td style="width: 50%; padding: 8px;">
+                    <h5 class="font-semibold">From:</h5>
+                    <div class="text-xs">
+                        605 , Gobi - Erode Main Road<br>
+                        Suriyampalayam ,<br>
+                        Bhavani (TK) ,<br>
+                        Erode (DT),Tamil Nadu,638455<br>
+                        <b>Email:</b> sshitechmodernricemill@gmail.com<br>
+                        <b>Mobile:</b> 9842141866 | 9944399318
                     </div>
-                </div>
-            </div>
-        </div>
+                </td>
+                <td style="width: 33.33%; ">
+                    <div style="display: flex; justify-content: space-between;">
+                        <div>
+                            <h5><b>Date:</b> <span id="date"></span> </h5>
+                            <h5><b>Time:</b> <span id="time"></span> </h5>
+                            <h5 class="text-sm">Shipping To:</h5>
+                            <input class="border border-gray-300" type="text" placeholder="Address">
+                            <input type="number" placeholder="Number" class="border border-gray-300">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
 
+        <hr class="border-b-1 border-black mb-5">
         <!-- Line before the table -->
         <hr class="my-4 border-t-2 border-gray-300">
-
         <!-- Main Content -->
         <div class="table-responsive">
             <table id="billTable" class="w-full mb-3">
@@ -130,38 +135,18 @@
 
         </div>
 
-
-        <!-- Line before the table -->
         <hr class="my-4 border-t-2 border-gray-300">
         <div>
             <h5><b>Current Bill:</b> <span id="currentbill"></span></h5>
             <p></p>
             <h1 id="words"><b>Amount in words:</b></h1>
         </div>
-        <!-- Line before the table -->
+        <!-- Line after the table -->
         <hr class="my-4 border-t-2 border-gray-300">
-<!--
-        <div>
-            <div class="md:flex md:justify-between text-xs">
-                <div class="mb-4  md:mb-0 ">
-                    <h3>Company's Bank Details</h3>
-                    <p>Holder Name:KONGU AGENCIES</p>
-                    <p>Bank Name:Tamilnadu Mercantile Bank</p>
-                    <p>A/c No:268700060750100</p>
-                    <p>Brach:Othakuthiral & TMBL0000266</p>
-                </div>
-            </div>
 
-
-        </div>
--->
         <div class="text-center mb-4">
             <button class="btn bg-green-700 text-white px-3 py-1" onclick="printInvoice()">Print Invoice</button>
         </div>
-
-
-
-
         <!-- script -->
         <script src="index.js"></script>
 </body>
