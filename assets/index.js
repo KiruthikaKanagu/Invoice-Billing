@@ -150,7 +150,7 @@ function addInvoiceItem() {
     row.innerHTML = `
         <td class="py-2 px-4 border">${rowsCount}</td>
         <td class="border" style="width: 33%;">
-            <select class="description-dropdown px-6 py-2 w-full sm:inline-block max-w-full" onchange="calculateTotal()">
+            <select class="description-dropdown px-6 py-2 w-full sm:inline-block max-w-full" onchange="calculateTotal()" style="-webkit-appearance: none">
                 <option value="item1">Select</option>
                 <option value="item2">Atchaya</option>
                 <option value="item3">Karnataka ponni</option>
